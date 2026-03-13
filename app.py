@@ -537,8 +537,12 @@ if "decisions" not in st.session_state:
     st.session_state.decisions = []
 if "input_text" not in st.session_state:
     st.session_state.input_text = ""
+if "input_key" not in st.session_state:
+    st.session_state.input_key = 0
 if "input_text" not in st.session_state:
     st.session_state.input_text = ""
+if "input_key" not in st.session_state:
+    st.session_state.input_key = 0
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -601,6 +605,7 @@ st.markdown('<div class="section-heading">Paste your discussion</div>', unsafe_a
 discussion_input = st.text_area(
     "input",
     value=st.session_state.input_text,
+    key=f"input_{st.session_state.input_key}",
     placeholder="Paste a Slack thread, email chain, or meeting notes here...\n\nExample: 'After debate we agreed to use PostgreSQL over MongoDB. Sarah owns the migration. Redis was ruled out due to persistence concerns. Target: end of sprint 4.'",
     height=200,
     label_visibility="collapsed"
@@ -612,6 +617,7 @@ with col_btn:
 with col_clr:
     if st.button("✕  Clear"):
         st.session_state.input_text = ""
+        st.session_state.input_key += 1
         st.rerun()
 with col_tip:
     st.markdown("<p class='tip-text'>Works with Slack threads, email chains, meeting notes, or any text discussion. No character limit.</p>", unsafe_allow_html=True)
@@ -657,6 +663,7 @@ if extract_btn:
                         st.session_state.decisions.append(d)
                     count = len(new_decisions)
                     st.session_state.input_text = ""
+                    st.session_state.input_key += 1
                     st.success(f"✓ Extracted {count} decision{'s' if count != 1 else ''} successfully.")
                     st.rerun()
             except json.JSONDecodeError:
