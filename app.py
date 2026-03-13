@@ -536,7 +536,7 @@ if gemini_api_key:
 if "decisions" not in st.session_state:
     st.session_state.decisions = []
 if "input_text" not in st.session_state:
-    st.session_state.input_text = 
+    st.session_state.input_text = ""
 if "input_text" not in st.session_state:
     st.session_state.input_text = ""
 
