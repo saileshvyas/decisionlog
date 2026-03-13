@@ -53,14 +53,7 @@ html, body,
 [data-testid="stApp"],
 .main {
     background-color: var(--bg) !important;
-    background-image:
-        radial-gradient(ellipse 60% 50% at 95% 0%, rgba(255,122,89,0.07) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 30% at 5% 100%, rgba(255,122,89,0.04) 0%, transparent 50%) !important;
-    background-attachment: fixed !important;
     color: var(--text) !important;
-}
-.block-container {
-    background: transparent !important;
 }
 
 /* ── NUKE keyboard_double_arrow completely ── */
@@ -462,12 +455,28 @@ hr { border-color: var(--border) !important; }
 try:
     gemini_api_key = st.secrets["GEMINI_API_KEY"]
 except Exception:
-    gemini_api_key = "AIzaSyAPB133Hb6sdpBcfgIY_vLq7qOUceABOXo"
+    gemini_api_key = "AIzaSyDRnYq9NCfSIK3wcGjTpTfj9wN3yifbMc0"
 
 
 # ── JS: Remove keyboard_double_arrow from DOM entirely ────────────────────────
 st.components.v1.html("""
 <script>
+// Inject background glow overlay
+const glowDiv = document.createElement('div');
+glowDiv.id = 'shayox-bg-glow';
+glowDiv.style.cssText = `
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(ellipse 55% 45% at 98% 2%, rgba(255,122,89,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 35% 25% at 2% 98%, rgba(255,122,89,0.05) 0%, transparent 50%);
+`;
+if (!document.getElementById('shayox-bg-glow')) {
+    document.body.appendChild(glowDiv);
+}
+
 function nukeKeyboardArrow() {
     // Target the sidebar collapsed control and strip its text nodes
     const btns = document.querySelectorAll('[data-testid="stSidebarCollapsedControl"]');
@@ -594,7 +603,7 @@ For EACH decision return a JSON object with:
 Return ONLY a valid JSON array. No preamble, no markdown fences. Empty array [] if no decisions found."""
 
 def extract_decisions(text, project, source):
-    model = genai.GenerativeModel(model_name="gemini-2.0-flash", system_instruction=SYSTEM_PROMPT)
+    model = genai.GenerativeModel(model_name="gemini-2.5-flash-preview-04-17", system_instruction=SYSTEM_PROMPT)
     context = f"Source: {source}\nProject: {project or 'Not specified'}\n\nDiscussion:\n{text}"
     response = model.generate_content(context)
     raw = response.text.strip()
