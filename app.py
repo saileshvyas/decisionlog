@@ -388,6 +388,22 @@ header span.material-symbols-rounded,
     box-shadow: 0 4px 20px rgba(255,122,89,0.5) !important;
     transform: translateY(-1px) !important;
 }
+/* Clear button — second button in row gets ghost style */
+div[data-testid="stHorizontalBlock"] > div:nth-child(2) .stButton > button {
+    background: transparent !important;
+    color: var(--text-muted) !important;
+    border: 1px solid var(--border-light) !important;
+    box-shadow: none !important;
+    font-size: 0.9rem !important;
+    padding: 0.75rem 1rem !important;
+}
+div[data-testid="stHorizontalBlock"] > div:nth-child(2) .stButton > button:hover {
+    background: var(--surface2) !important;
+    color: var(--red) !important;
+    border-color: var(--red) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
 
 .tip-text { font-size: 0.95rem; color: var(--text-muted); margin-top: 0.8rem; font-weight: 300; }
 
@@ -455,7 +471,7 @@ hr { border-color: var(--border) !important; }
 try:
     gemini_api_key = st.secrets["GEMINI_API_KEY"]
 except Exception:
-    gemini_api_key = ""
+    gemini_api_key = "AIzaSyDRnYq9NCfSIK3wcGjTpTfj9wN3yifbMc0"
 
 
 # ── JS: Remove keyboard_double_arrow from DOM entirely ────────────────────────
@@ -519,6 +535,10 @@ if gemini_api_key:
 # ── Session state ─────────────────────────────────────────────────────────────
 if "decisions" not in st.session_state:
     st.session_state.decisions = []
+if "input_text" not in st.session_state:
+    st.session_state.input_text = 
+if "input_text" not in st.session_state:
+    st.session_state.input_text = ""
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -580,13 +600,19 @@ st.markdown("<hr class='divider'>", unsafe_allow_html=True)
 st.markdown('<div class="section-heading">Paste your discussion</div>', unsafe_allow_html=True)
 discussion_input = st.text_area(
     "input",
+    value=st.session_state.input_text,
     placeholder="Paste a Slack thread, email chain, or meeting notes here...\n\nExample: 'After debate we agreed to use PostgreSQL over MongoDB. Sarah owns the migration. Redis was ruled out due to persistence concerns. Target: end of sprint 4.'",
     height=200,
     label_visibility="collapsed"
 )
-col_btn, col_tip = st.columns([1, 4])
+st.session_state.input_text = discussion_input
+col_btn, col_clr, col_tip = st.columns([1.2, 0.7, 3.5])
 with col_btn:
     extract_btn = st.button("◈  Extract Decisions")
+with col_clr:
+    if st.button("✕  Clear"):
+        st.session_state.input_text = ""
+        st.rerun()
 with col_tip:
     st.markdown("<p class='tip-text'>Works with Slack threads, email chains, meeting notes, or any text discussion. No character limit.</p>", unsafe_allow_html=True)
 
@@ -630,6 +656,7 @@ if extract_btn:
                         d["id"] = len(st.session_state.decisions) + 1
                         st.session_state.decisions.append(d)
                     count = len(new_decisions)
+                    st.session_state.input_text = ""
                     st.success(f"✓ Extracted {count} decision{'s' if count != 1 else ''} successfully.")
                     st.rerun()
             except json.JSONDecodeError:
