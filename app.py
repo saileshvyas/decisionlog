@@ -464,6 +464,42 @@ div[data-testid="stHorizontalBlock"] > div:nth-child(2) .stButton > button:hover
 .empty-sub   { font-size: 0.95rem; color: var(--text-muted); }
 
 hr { border-color: var(--border) !important; }
+
+/* ── Mobile responsive ── */
+@media (max-width: 768px) {
+    .block-container {
+        padding: 1rem !important;
+    }
+    .hero-wrap {
+        padding: 1.5rem 1rem !important;
+    }
+    .hero-title {
+        font-size: 2rem !important;
+    }
+    .hero-diamond {
+        font-size: 2rem !important;
+    }
+    .hero-sub {
+        font-size: 0.9rem !important;
+    }
+    .hero-right {
+        display: none !important;
+    }
+    .card-decision {
+        font-size: 1rem !important;
+    }
+    .decision-card {
+        padding: 1.2rem 1rem 1.2rem 1.5rem !important;
+    }
+    /* Stack the 3-column card grid to single column */
+    .decision-card div[style*="grid-template-columns:1fr 1fr 1fr"] {
+        display: block !important;
+    }
+    .decision-card div[style*="grid-template-columns:1fr 1fr 1fr"] > div {
+        margin-bottom: 0.8rem !important;
+    }
+}
+
 </style>
 """, unsafe_allow_html=True)
 
