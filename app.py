@@ -603,7 +603,7 @@ For EACH decision return a JSON object with:
 Return ONLY a valid JSON array. No preamble, no markdown fences. Empty array [] if no decisions found."""
 
 def extract_decisions(text, project, source):
-    model = genai.GenerativeModel(model_name="gemini-2.5-flash-preview-04-17", system_instruction=SYSTEM_PROMPT)
+    model = genai.GenerativeModel(model_name="gemini-2.5-flash", system_instruction=SYSTEM_PROMPT)
     context = f"Source: {source}\nProject: {project or 'Not specified'}\n\nDiscussion:\n{text}"
     response = model.generate_content(context)
     raw = response.text.strip()
