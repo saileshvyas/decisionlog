@@ -554,7 +554,7 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
     st.divider()
-    st.markdown("<p style='color:#00bfa5;font-size:1rem;font-weight:500;margin:0;'>● Gemini 2.0 connected</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#00bfa5;font-size:1rem;font-weight:500;margin:0;'>● Gemini 2.5 connected</p>", unsafe_allow_html=True)
     st.divider()
     st.markdown("<p style='color:rgba(255,200,180,0.7);font-size:0.88rem;font-weight:500;margin-bottom:0.5rem;'>Context <span style=\"opacity:0.5\">(optional)</span></p>", unsafe_allow_html=True)
     project_tag = st.text_input("Project / Topic", placeholder="e.g. Q2 Roadmap")
