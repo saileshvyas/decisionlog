@@ -455,7 +455,7 @@ hr { border-color: var(--border) !important; }
 try:
     gemini_api_key = st.secrets["GEMINI_API_KEY"]
 except Exception:
-    gemini_api_key = "AIzaSyDRnYq9NCfSIK3wcGjTpTfj9wN3yifbMc0"
+    gemini_api_key = ""
 
 
 # ── JS: Remove keyboard_double_arrow from DOM entirely ────────────────────────
